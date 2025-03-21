@@ -1,0 +1,98 @@
+-- Create the database 'varahi_milks'
+CREATE DATABASE varahi_milks;
+
+-- Use the 'varahi_milks' database
+USE varahi_milks;
+
+
+--Users Table
+-- Create the 'users' table to store user information
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,  -- Unique ID for each user, auto-incremented
+    name VARCHAR(255) NOT NULL,          -- User's name (required)
+    email VARCHAR(255) NOT NULL UNIQUE,  -- User's email (must be unique)
+    password VARCHAR(255) NOT NULL,      -- User's password (required)
+    contactnumber VARCHAR(15) NOT NULL UNIQUE,  -- User's contact number (must be unique)
+    address TEXT NOT NULL               -- User's address (required)
+);
+
+-- Insert a sample user record into the 'users' table
+INSERT INTO users (name, email, password, contactnumber, address) 
+VALUES ("sai", "sai@gmail.com", "sai123", 1231231230, "kkd");
+
+
+--Orders Table
+-- Create the 'orders' table to store customer order information
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique order ID, auto-incremented
+    id INT,                                   -- User ID (Foreign Key referencing 'users' table)
+    name VARCHAR(255) NOT NULL,               -- Customer's name (required)
+    contactnumber VARCHAR(15) NOT NULL,       -- Customer's contact number (required)
+    date DATETIME NOT NULL,                   -- Order date (required)
+    quantity INT NOT NULL,                    -- Quantity of the product (required)
+    productname VARCHAR(255) NOT NULL,        -- Name of the product ordered (required)
+    deliveryaddress TEXT NOT NULL,            -- Delivery address (required)
+    order_progress ENUM('Order In Progress', 'Order Confirmed', 'Out for Delivery', 'Order Delivered') 
+    DEFAULT 'Order In Progress'               -- Default status is 'Order In Progress'
+    delivered_time DATETIME NOT NULL,         -- Time when the order was delivered (required)
+);
+
+
+--ProductPrices Table
+-- Create the 'productprices' table to store prices of different products
+CREATE TABLE productprices (
+    id INT AUTO_INCREMENT PRIMARY KEY,         -- Auto-incrementing ID for each product
+    product_name VARCHAR(255) NOT NULL,         -- Name of the product (required)
+    price DECIMAL(10, 2) NOT NULL,             -- Price of the product (required, using DECIMAL for currency values)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Auto-update timestamp for price updates
+);
+
+-- Insert product prices into the 'productprices' table
+INSERT INTO productprices (product_name, price) 
+VALUES 
+('BuffaloMilk', 50.00), 
+('CowMilk', 40.00), 
+('Paneer', 100.00), 
+('BadamMilk', 60.00),
+('PotCurd', 100.00);
+
+
+--Stocks Table
+-- Create the 'stocks' table to track the stock levels of each product
+CREATE TABLE stocks (
+    productname VARCHAR(255) NOT NULL PRIMARY KEY,  -- Name of the product (primary key)
+    stock INT NOT NULL                             -- Quantity of the product available in stock
+);
+
+-- Insert stock data for a product into the 'stocks' table
+INSERT INTO stocks (productname, stock) 
+VALUES 
+-- ('BuffaloMilk', 50), 
+-- ('CowMilk', 40), 
+-- ('Paneer', 100), 
+-- ('BadamMilk', 60),
+('PotCurd', 100);
+
+-- Select all records from the 'stocks' table to view available stock
+SELECT * FROM stocks;
+
+-- Select all records from the 'users' table
+SELECT * FROM users;
+
+-- Select all records from the 'productprices' table
+SELECT * FROM productprices;
+
+-- Select all records from the 'orders' table
+SELECT * FROM orders;
+
+-- Describe the structure of the 'users' table
+DESCRIBE users;
+
+-- Describe the structure of the 'productprices' table
+DESCRIBE productprices;
+
+-- Describe the structure of the 'stocks' table
+DESCRIBE stocks;
+
+-- Describe the structure of the 'orders' table
+DESCRIBE orders;

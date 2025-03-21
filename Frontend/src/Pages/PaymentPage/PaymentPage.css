@@ -1,0 +1,133 @@
+/* Main Container */
+.payment-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Payment Details */
+.payment-details {
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.payment-details p {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #555;
+}
+
+/* Buttons */
+.payment-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.pay-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pay-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pay-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* Error Message */
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Content */
+.popup {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.popup h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.popup p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.ok-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ok-button:hover {
+  background-color: #0056b3;
+}
