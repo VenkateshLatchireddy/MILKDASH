@@ -47,7 +47,7 @@ const BuffaloMilkPage = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
 
-    const [location, setLocation] = useState(null);
+    // const [location, setLocation] = useState(null);
     const API_KEY ="pk.f93056d7a8151da3e8682629e9c0f60d"; // Replace with actual key
 
     const handleGetLocation = () => {
