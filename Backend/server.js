@@ -31,6 +31,15 @@ const db = mysql.createPool({
 // ✅ Export DB for other modules
 module.exports = db;
 
+db.getConnection()
+  .then((connection) => {
+    console.log("Successfully connected to the database!");
+    connection.release();
+  })
+  .catch((err) => {
+    console.error("Error connecting to the database:", err);
+  });
+
 // ✅ Success message
 app.get("/", (req, res) => {
   res.send("Successfully connected to the Backend!");
@@ -210,16 +219,23 @@ app.get("/api/profile/:id", async (req, res) => {
 });
 
 // ✅ Fetch Orders for a User
-app.get("/api/orders/:id", async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const query = "SELECT * FROM orders WHERE id = ?";
-    const [orders] = await db.execute(query, [userId]);
+// Fetch orders
+app.get("/api/orders/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  console.log("Fetching orders for user ID:", userId); // Debugging
 
+  try {
+    const query = "SELECT * FROM orders WHERE id = ?";
+    const [orders] = await db.query(query, [userId]);
+
+    // Log the raw date from the database
+    console.log("Raw date from database:", orders[0].date); // Debugging
+
+    // Return orders as-is (date is already in IST)
     res.status(200).json(orders);
   } catch (error) {
-    console.error("Error fetching orders:", error);
-    res.status(500).json({ message: "Error fetching orders: " + error.message });
+    console.error("Error fetching orders:", error); // Debugging
+    res.status(500).json({ message: "Error fetching orders" });
   }
 });
 
@@ -271,6 +287,9 @@ router.post("/api/orders", async (req, res) => {
   const deliveredTime = null; // No delivered time initially
 
   try {
+    // Set the MySQL session time zone to IST
+    await db.execute("SET time_zone = '+05:30';");
+
     // Check the current stock before placing the order
     const stockQuery = `SELECT stock FROM stocks WHERE productname = ?`;
     const [stockResult] = await db.execute(stockQuery, [productname]);

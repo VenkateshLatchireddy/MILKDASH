@@ -21,14 +21,14 @@ const PaymentPage = () => {
   const deliveryaddress = queryParams.get("deliveryaddress");
 
   const date = new Date().toISOString().slice(0, 19).replace('T', ' '); // Current date for order
-
+  const userId = sessionStorage.getItem("userId")
   const handleOrderPlacement = async () => {
     setLoading(true);
     setErrorMessage(""); // Reset error message on each attempt
 
     try {
       const orderData = {
-        id: Date.now(),
+        id: userId,
         name,
         contactnumber: phone,
         productname,

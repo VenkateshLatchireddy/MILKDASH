@@ -21,7 +21,7 @@ const AdminNavbar = () => {
         <h2>Admin Panel</h2>
       </div>
       <div className="admin-nav-title">
-        <h1>MILK DASH</h1>
+        <h1>MILKDASH</h1>
       </div>
       <div className="admin-nav-actions">
         <button className="admin-nav-button" onClick={handleAuthAction}>

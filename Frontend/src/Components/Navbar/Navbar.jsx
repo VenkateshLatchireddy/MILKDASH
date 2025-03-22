@@ -114,7 +114,7 @@ return (
 
       <div className="nav-title">
         <Link to={"/about"}>
-          <p className="title-heading">MILK DASH</p>
+          <p className="title-heading">MILKDASH</p>
           <p className="title-caption">We Provide Milk Home Delivery</p>
         </Link>
       </div>

@@ -8,7 +8,7 @@ const ContactPage = () => {
       <div className="contact-container-wrapper">
         <div className="contact-container">
           <div className="contact-left-section">
-            <h2 className="contact-title"><MapPin className="contact-icon" /> MILK DASH</h2>
+            <h2 className="contact-title"><MapPin className="contact-icon" /> MILKDASH</h2>
             <h2 className="contact-title">Address</h2>
             <p>
               Hyderabad,<br />
