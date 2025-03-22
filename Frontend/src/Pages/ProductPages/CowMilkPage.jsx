@@ -12,8 +12,8 @@ const CowMilkPage = () => {
     const [stock, setStock] = useState(null);
     const [price, setPrice] = useState(null);
     const [user, setUser] = useState({ name: "", contactnumber: "" });
-    const [message, setMessage] = useState("");
-    const [showPopup, setShowPopup] = useState(false);
+    // const [message, setMessage] = useState("");
+    // const [showPopup, setShowPopup] = useState(false);
     const [loading, setLoading] = useState(true);
     const userId = sessionStorage.getItem("userId");
 
