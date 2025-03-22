@@ -2,6 +2,8 @@
   "name": "varahi-milks",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/Frontend",
+
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
@@ -25,9 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "react-scripts start",
-    "lint": "eslint src --ext .js,.jsx",
-    "homepage": "https://milkdash-by-venkatesh.netlify.app/"
-
+    "lint": "eslint src --ext .js,.jsx"
   },
   "eslintConfig": {
     "extends": [
