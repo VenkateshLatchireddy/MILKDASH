@@ -10,9 +10,9 @@ const PaneerPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [stock, setStock] = useState(null);
     const [user, setUser] = useState({ name: '', contactnumber: '' });
-    // const [message, setMessage] = useState('');
+    const [message, ] = useState('');
     const [loading, setLoading] = useState(true);
-    // const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, ] = useState(false);
     const [price, setPrice] = useState(null);
     const userId = sessionStorage.getItem('userId');
     const navigate = useNavigate(); // Initialize navigation
