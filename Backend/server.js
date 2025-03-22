@@ -9,7 +9,7 @@ require("dotenv").config(); // ✅ Load environment variables from .env file
 
 // ✅ Enable CORS for frontend
 const corsOptions = {
-  origin: "https://milkdash-by-venkatesh.netlify.app/",
+  origin: "https://milkdash-by-venkatesh.netlify.app",
   methods: "GET, POST, PUT, DELETE",
   allowedHeaders: "Content-Type, Authorization",
 };
