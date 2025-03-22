@@ -13,7 +13,7 @@ const ViewCustomers = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/users');
+            const response = await fetch('https://milkdash.onrender.com/api/users');
             const data = await response.json();
             setUsers(data);
         } catch (error) {
@@ -32,7 +32,7 @@ const ViewCustomers = () => {
 
     const handleUpdate = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/users/${editUser.id}`, {
+            const response = await fetch(`https://milkdash.onrender.com/api/users/${editUser.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

@@ -47,7 +47,7 @@ const DeliveryTracking = () => {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5001/customer-location/${orderId}`);
+      const response = await fetch(`https://milkdash.onrender.com/customer-location/${orderId}`);
       const data = await response.json();
       if (data.error) {
         setError(data.error);

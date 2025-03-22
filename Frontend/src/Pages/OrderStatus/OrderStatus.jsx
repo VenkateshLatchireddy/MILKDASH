@@ -9,7 +9,7 @@ const OrderStatus = () => {
 
   // Fetch accepted orders from backend
   useEffect(() => {
-    axios.get("http://localhost:5000/accepted-orders")
+    axios.get("https://milkdash.onrender.com/accepted-orders")
       .then(response => {
         const sortedOrders = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setOrders(sortedOrders);
@@ -41,7 +41,7 @@ const OrderStatus = () => {
     if (nextStatusIndex < statusOptions.length) {
         const newStatus = statusOptions[nextStatusIndex];
 
-        axios.put("http://localhost:5000/orders/progress", { order_id, order_progress: newStatus })
+        axios.put("https://milkdash.onrender.com/orders/progress", { order_id, order_progress: newStatus })
             .then(() => {
                 setOrders(orders.map(order =>
                     order.order_id === order_id

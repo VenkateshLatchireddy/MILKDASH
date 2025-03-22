@@ -9,11 +9,11 @@ const ProfilePage = () => {
   const userId = sessionStorage.getItem("userId");
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/profile/${userId}`)
+    axios.get(`https://milkdash.onrender.com/api/profile/${userId}`)
       .then((response) => setUser(response.data))
       .catch((error) => console.error("Error fetching user profile:", error));
 
-      axios.get(`http://localhost:5000/api/orders/${userId}`)
+      axios.get(`https://milkdash.onrender.com/api/orders/${userId}`)
       .then((response) => {
         console.log("Raw orders data:", response.data); // Debugging: Check the raw data
         const sortedOrders = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));

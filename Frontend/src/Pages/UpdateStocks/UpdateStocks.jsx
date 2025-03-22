@@ -8,7 +8,7 @@ const UpdateStocks= () => {
 
   // Fetch stock data from the backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/stocks')
+    fetch('https://milkdash.onrender.com/api/stocks')
       .then((response) => response.json())
       .then((data) => setStockData(data))
       .catch((error) => console.error('Error fetching stocks:', error));
@@ -16,7 +16,7 @@ const UpdateStocks= () => {
 
   // Handle stock update
   const handleStockUpdate = (product, newStock) => {
-    fetch('http://localhost:5000/api/updateStock', {
+    fetch('https://milkdash.onrender.com/api/updateStock', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ productname: product, stock: newStock }),

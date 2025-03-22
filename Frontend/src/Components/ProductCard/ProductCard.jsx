@@ -12,7 +12,7 @@ const ProductCard = () => {
 
   // ✅ Fetch Product Prices from Backend
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://milkdash.onrender.com/api/products")
       .then(response => response.json())
       .then(data => {
         console.log("Fetched products:", data); // Debugging
