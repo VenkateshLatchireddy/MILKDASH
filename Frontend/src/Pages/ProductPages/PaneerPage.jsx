@@ -52,6 +52,8 @@ const PaneerPage = () => {
     // Function to detect location and fetch address using LOCATION IQ
 
    const [location, setLocation] = useState(null);
+   console.log(location, setLocation); // Use the variables
+
        const API_KEY = "pk.f93056d7a8151da3e8682629e9c0f60d"; // Replace with actual key
    
        const handleGetLocation = () => {
