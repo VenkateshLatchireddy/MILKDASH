@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './ProfilePage.css';
+import "./ProfilePage.css";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -12,17 +12,15 @@ const ProfilePage = () => {
     axios.get(`http://localhost:5000/api/profile/${userId}`)
       .then((response) => setUser(response.data))
       .catch((error) => console.error("Error fetching user profile:", error));
-  
-    axios.get(`http://localhost:5000/api/orders/${userId}`)
+
+      axios.get(`http://localhost:5000/api/orders/${userId}`)
       .then((response) => {
-        // Sort orders by date (newest first)
+        console.log("Raw orders data:", response.data); // Debugging: Check the raw data
         const sortedOrders = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setOrders(sortedOrders);
       })
       .catch((error) => console.error("Error fetching orders:", error));
   }, [userId]);
-  
-
 
   return (
     <div>
@@ -71,29 +69,34 @@ const ProfilePage = () => {
                 <div key={order.order_id} className="order-card">
                   <div className="order-row">
                     <p><strong>Product Name:</strong> {order.productname}</p>
-                    <p><strong>Booking Time:</strong> {order.date ? new Date(order.date).toLocaleString('en-GB', { 
-                      day: '2-digit', 
-                      month: 'short', 
-                      year: 'numeric', 
-                      hour: '2-digit', 
-                      minute: '2-digit', 
-                      second: '2-digit', 
-                      hour12: true 
-                     }) : 'Invalid Date'}</p>
-                    <p><strong>Delivered Time:</strong> 
-                      {order.delivered_time 
-                        ? new Date(order.delivered_time).toLocaleString('en-GB', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: true
-                          }) 
-                        : 'Not Delivered Yet'}
+                    <p>
+  <strong>Booking Time:</strong>{" "}
+  {order.date && !isNaN(new Date(order.date))
+    ? new Date(order.date).toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      })
+    : "Invalid Date"}
+</p>
+                    <p>
+                      <strong>Delivered Time:</strong>{" "}
+                      {order.delivered_time && !isNaN(new Date(order.delivered_time))
+                        ? new Date(order.delivered_time).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: true,
+                          })
+                        : "Not Delivered Yet"}
                     </p>
-
                   </div>
                   <div className="order-row">
                     <p><strong>Quantity:</strong> {order.quantity}</p>
@@ -103,7 +106,6 @@ const ProfilePage = () => {
                     <p><strong>Delivery Address:</strong> {order.deliveryaddress}</p>
                     <p><strong>Progress:</strong> {order.order_progress}</p>
                   </div>
-                  
                 </div>
               ))
             ) : (
