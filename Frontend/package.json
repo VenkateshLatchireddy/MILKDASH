@@ -2,7 +2,7 @@
   "name": "varahi-milks",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/Frontend",
+  "homepage": ".",
 
   "dependencies": {
     "autoprefixer": "^10.4.20",
