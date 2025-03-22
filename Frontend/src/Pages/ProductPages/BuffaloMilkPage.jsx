@@ -19,15 +19,15 @@ const BuffaloMilkPage = () => {
         const fetchData = async () => {
             try {
                 if (userId) {
-                    const userResponse = await axios.get(`http://localhost:5000/api/profile/${userId}`);
+                    const userResponse = await axios.get(`https://milkdash.onrender.com/api/profile/${userId}`);
                     setUser(userResponse.data);
                     setAddress(userResponse.data.address || ''); // Set default address
                 }
 
-                const stockResponse = await axios.get('http://localhost:5000/api/stocks/buffalomilk');
+                const stockResponse = await axios.get('https://milkdash.onrender.com/api/stocks/buffalomilk');
                 setStock(stockResponse.data.stock);
 
-                const priceResponse = await axios.get('http://localhost:5000/api/product-price/buffalomilk');
+                const priceResponse = await axios.get('https://milkdash.onrender.com/api/product-price/buffalomilk');
                 setPrice(priceResponse.data.price);
             } catch (error) {
                 console.error('Error fetching data:', error);

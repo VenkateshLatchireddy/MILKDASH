@@ -121,7 +121,7 @@ return (
 
       <div className="nav-contact">
         <Link to={"/contact"}>
-          WhatsApp: ********** <br /> Email: ******@gmail.com
+          WhatsApp: 8142244668 <br /> Email: milkdash@gmail.com
         </Link>
       </div>
 

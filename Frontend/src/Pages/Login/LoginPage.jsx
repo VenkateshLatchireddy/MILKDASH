@@ -70,7 +70,7 @@ const AuthForm = () => {
 
     try {
       if (isRegistered) {
-        const response = await axios.post("http://localhost:5000/login", {
+        const response = await axios.post("https://milkdash.onrender.com/login", {
           emailOrContact: formData.emailOrContact,
           password: formData.password,
         });
@@ -86,7 +86,7 @@ const AuthForm = () => {
           navigate("/");
         }
       } else {
-        const response = await axios.post("http://localhost:5000/signup", {
+        const response = await axios.post("https://milkdash.onrender.com/signup", {
           name: formData.name,
           email: formData.emailOrContact,
           contactnumber: formData.contactnumber,

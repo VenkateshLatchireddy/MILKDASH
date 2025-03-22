@@ -10,7 +10,7 @@ const UpdatePrice = () => {
 
   // Fetch prices from backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/getPrices')
+    fetch('https://milkdash.onrender.com/api/getPrices')
       .then(response => response.json())
       .then(data => {
         setPrices(data);
@@ -33,7 +33,7 @@ const UpdatePrice = () => {
     sessionStorage.setItem('prices', JSON.stringify(updatedPrices));
 
     // Update the price in the backend
-    fetch('http://localhost:5000/api/updatePrice', {
+    fetch('https://milkdash.onrender.com/api/updatePrice', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

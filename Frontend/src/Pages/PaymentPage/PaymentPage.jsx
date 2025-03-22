@@ -37,7 +37,7 @@ const PaymentPage = () => {
         date,
       };
 
-      const response = await axios.post("http://localhost:5000/api/orders", orderData);
+      const response = await axios.post("https://milkdash.onrender.com/api/orders", orderData);
 
       if (response.status === 201) {
         setOrderPlaced(true); // Show success popup if order is placed successfully
