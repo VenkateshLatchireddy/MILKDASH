@@ -51,7 +51,7 @@ const PotCurdPage = () => {
 
     // Function to detect location and fetch address using LOCATION IQ
 
-    const [location, setLocation] = useState(null);
+    // const [location, setLocation] = useState(null);
         const API_KEY = "pk.f93056d7a8151da3e8682629e9c0f60d"; // Replace with actual key
     
         const handleGetLocation = () => {
@@ -109,10 +109,6 @@ const PotCurdPage = () => {
             navigate(`/payment?amount=${totalAmount}&name=${user.name}&phone=${user.contactnumber}&email=${user.email}&productname=PotCurd&quantity=${quantity}&deliveryaddress=${address}`);
         };
         
-    
-    
-    
-
     return (
         <div className='product-page'>
             <div className='product-container'>

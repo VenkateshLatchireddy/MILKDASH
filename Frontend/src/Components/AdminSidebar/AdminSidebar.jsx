@@ -1,7 +1,6 @@
 import React from 'react'
 import './AdminSidebar.css'
 import {Link} from 'react-router-dom'
-import OrdersImg from '../../Components/Assets/orders.png';
 import UpdatePriceImg from '../../Components/Assets/updateprice.png';
 import  UpdateStocksImg from '../../Components/Assets/updatestock.png';
 import ViewCustomersImg from '../../Components/Assets/viewcustomer.png';
