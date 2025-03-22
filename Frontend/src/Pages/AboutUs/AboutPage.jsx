@@ -19,6 +19,7 @@ import PotCurdImg2 from '../../Components/Assets/curd2.jpg'
 import PotCurdImg3 from '../../Components/Assets/curd6.jpg'
 
 // ImageSlider functionality inside AboutPage
+
 const ImageSlider = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -36,7 +37,7 @@ const ImageSlider = ({ images }) => {
   useEffect(() => {
     const timer = setInterval(goToNext, 3000);
     return () => clearInterval(timer);
-  }, []);
+  }, [goToNext]); // Add goToNext to the dependency array
 
   return (
     <div className="slider-container">
@@ -52,6 +53,8 @@ const ImageSlider = ({ images }) => {
     </div>
   );
 };
+
+
 
 const AboutPage = () => {
 return (
@@ -130,10 +133,6 @@ return (
               </p>
             </div>
           </div>
-
-
-
-          
         </div>
       </div>
     </div>
