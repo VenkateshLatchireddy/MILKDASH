@@ -1,117 +1,180 @@
-html, body {
-  height: 100%;
-  margin: 0;
-}
+/* ===== MAIN FOOTER ===== */
 
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.content-wrap {
-  flex: 1;
-}
-
-.footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  background-color: #1a2e05;
-  color: #fff;
-  padding: 20px;
+.md-footer {
+  background: #0f1f03;
+  color: #f8fafc;
   width: 100%;
-}
-
-.footer-box-common, .footer-box-contact {
-  flex: 1 1 30%;
-  padding: 15px;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.footer-heading {
-  font-size: 22px;
-  margin-bottom: 10px;
-  color: #fff;
-}
-
-.footer-hr {
-  border: 1px solid #fff;
-  width: 50%;
-  margin: 10px auto;
-}
-
-.footer-caption {
-  font-size: 14px;
-  color: #b7b3b3;
-  margin: 10px 0;
-}
-
-.footer-list-common, .footer-list-contact {
-  list-style: none;
-  padding: 0;
-  margin: 10px auto;
-  text-align: center;
-  display: inline-block;
-}
-.footer-list-contact {
-  text-align: left;
-}
-.footer-list-contact a{
-  text-decoration: none;
-  color: #fff;
-}
-.footer-list-contact a:hover{
-  color: #10e749;
-
-}
-
-.footer-list-common li, .footer-list-contact li {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #e1d7e0;
+  margin-top: 40px;
   
 }
 
-.footer-list-common a {
-  color: #e1d7e0;
-  text-decoration: none;
+.md-footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 16px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* ===== COLUMNS ===== */
+
+.md-footer-column {
+  flex: 1 1 240px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== BRAND / TITLE ===== */
+
+.md-footer-title {
+  font-size: 22px;
+  letter-spacing: 1px;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.md-footer-tagline {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d1d5db;
+}
+
+/* ===== SECTION HEADING ===== */
+
+.md-footer-heading {
   font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 6px;
 }
 
-.footer-list-common a:hover {
-  color: #10e749;
+.md-footer-divider {
+  width: 60px;
+  height: 2px;
+  background: #9fe870;
+  margin-bottom: 10px;
 }
 
-.footer-icon {
-  height: 20px;
-  width: 20px;
-  margin-right: 10px;
-  background-color: white;
-  border-radius: 5px;
-  padding: 2px;
+/* ===== LINKS LIST ===== */
+
+.md-footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-@media screen and (max-width: 567px) {
-  .footer-container {
+
+.md-footer-links li {
+  margin-bottom: 8px;
+}
+
+.md-footer-links a {
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.md-footer-links a:hover {
+  color: #a7f3d0;
+  transform: translateX(3px);
+}
+
+/* ===== CONTACT LIST ===== */
+
+.md-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.md-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #e5e7eb;
+  font-size: 14px;
+  padding: 6px 0;
+  transition: 0.2s ease;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.md-contact-item:hover {
+  color: #a7f3d0;
+  transform: translateX(3px);
+}
+
+/* ===== UNIFIED ICON WRAPPER (MAIN FIX) ===== */
+
+.md-contact-icon-wrapper {
+  width: 34px;
+  height: 34px;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.md-contact-icon {
+  width: 18px !important;
+  height: 18px !important;
+  object-fit: contain;
+}
+
+/* ===== BOTTOM BAR ===== */
+
+.md-footer-bottom {
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 10px 16px 14px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .md-footer-inner {
     flex-direction: column;
     align-items: center;
+    text-align: center;
   }
-  .footer-box-common, .footer-box-contact {
+
+  .md-footer-column {
     width: 100%;
-    margin-bottom: 20px;
+    align-items: center;
   }
-  .footer-heading {
-    font-size: 18px;
+
+  .md-footer-links,
+  .md-contact-list {
+    text-align: center;
+    align-items: center;
   }
-  .footer-list-common li, .footer-list-contact li {
-    font-size: 14px;
+
+  .md-contact-item {
+    justify-content: center;
   }
 }
 
-@media screen and (min-width: 567px) and (max-width: 767px) {
-  .footer-box-common, .footer-box-contact {
-    flex: 1 1 45%;
+@media (max-width: 480px) {
+  .md-footer-title {
+    font-size: 20px;
+  }
+
+  .md-footer-heading {
+    font-size: 15px;
+  }
+
+  .md-contact-item {
+    justify-content: center !important;
   }
 }
