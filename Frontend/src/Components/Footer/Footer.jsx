@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 import FacebookIcon from "../Assets/Facebook.webp";
-import EmailIcon from "../Assets/email.webp";
 import WhatsappIcon from "../Assets/whatsapp.webp";
 import InstagramIcon from "../Assets/instagram.webp";
 
