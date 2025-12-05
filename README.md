@@ -74,7 +74,7 @@ MYSQL_DATABASE=defaultdb
 MYSQL_HOST=milkdash-db-milkdash.aivencloud.com  (changeded)
 MYSQL_PORT=12707
 MYSQL_USER=avnadmin
-MYSQL_PASSWORD=AVNS_Aaoz682vsHYFoDi_     (Changed)
+MYSQL_PASSWORD=use  your pw
 PORT=5000
   
 
