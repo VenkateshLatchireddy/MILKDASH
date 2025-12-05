@@ -1,8 +1,8 @@
--- Create the database 'varahi_milks'
+-- Create the database 'defaultdb'
 CREATE DATABASE deafultdb;
 
 -- Use the 'defaultdb' database
-USE varahi_milks;
+USE defaultdb;
 
 
 --Users Table
