@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./ProductPage.css";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import BuffaloMilkImg from "../../Components/Assets/BuffaloImg.jpg"; // Replace with your actual image path
+import BuffaloMilkImg from "../../Components/Assets/BuffaloImg.jpg";
+import API_BASE_URL from "../../config";
 
 const BuffaloMilkPage = () => {
     const navigate = useNavigate();
@@ -19,15 +20,21 @@ const BuffaloMilkPage = () => {
         const fetchData = async () => {
             try {
                 if (userId) {
-                    const userResponse = await axios.get(`https://milkdash.onrender.com/api/profile/${userId}`);
+                    const userResponse = await axios.get(`${API_BASE_URL}/api/profile/${userId}`);
                     setUser(userResponse.data);
-                    setAddress(userResponse.data.address || ''); // Set default address
+                    // Check if address is valid (not "Not Provided")
+                    const userAddress = userResponse.data.address || '';
+                    if (userAddress && userAddress.trim() !== '' && userAddress !== 'Not Provided') {
+                        setAddress(userAddress);
+                    } else {
+                        setAddress(''); // Empty if not valid
+                    }
                 }
 
-                const stockResponse = await axios.get('https://milkdash.onrender.com/api/stocks/buffalomilk');
+                const stockResponse = await axios.get(`${API_BASE_URL}/api/stocks/buffalomilk`);
                 setStock(stockResponse.data.stock);
 
-                const priceResponse = await axios.get('https://milkdash.onrender.com/api/product-price/buffalomilk');
+                const priceResponse = await axios.get(`${API_BASE_URL}/api/product-price/buffalomilk`);
                 setPrice(priceResponse.data.price);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -47,8 +54,7 @@ const BuffaloMilkPage = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
 
-    // const [location, setLocation] = useState(null);
-    const API_KEY ="pk.f93056d7a8151da3e8682629e9c0f60d"; // Replace with actual key
+    const API_KEY ="pk.f93056d7a8151da3e8682629e9c0f60d";
 
     const handleGetLocation = () => {
         if (!API_KEY) {
@@ -89,8 +95,10 @@ const BuffaloMilkPage = () => {
             return;
         }
 
-        if (!address) {
-            alert("Please enter a delivery address.");
+        // Check if address is entered and not "Not Provided"
+        if (!address || address.trim() === '' || address === 'Not Provided') {
+            alert('Please enter a delivery address to proceed.');
+            setShowInput(true); // Show the address input if it's hidden
             return;
         }
 
@@ -130,11 +138,16 @@ const BuffaloMilkPage = () => {
                                 <input
                                     type='text'
                                     className='delivery-input'
-                                    placeholder='Enter address'
+                                    placeholder='Enter your delivery address'
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
                                 />
                                 <button onClick={handleGetLocation}>Get Current Location</button>
+                            </div>
+                        )}
+                        {address && address !== 'Not Provided' && !showInput && (
+                            <div style={{marginTop: '10px', color: '#666', fontSize: '14px'}}>
+                                Address set ✓
                             </div>
                         )}
                     </div>
@@ -148,11 +161,11 @@ const BuffaloMilkPage = () => {
                             <button className="quantity-btn" onClick={increaseQuantity}>+</button>
                         </div>
                         <button
-                            className={`buy-now ${stock === 0 ? "disabled" : ""}`}
+                            className={`buy-now ${stock === 0 || !address || address === 'Not Provided' ? "disabled" : ""}`}
                             onClick={handleBuyNow}
-                            disabled={stock === 0}
+                            disabled={stock === 0 || !address || address === 'Not Provided'}
                         >
-                            {stock === 0 ? "Out of Stock" : "Buy Now"}
+                            {stock === 0 ? "Out of Stock" : !address || address === 'Not Provided' ? "Add Address to Proceed" : "Buy Now"}
                         </button>
                     </div>
                 </div>

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './ProductPage.css';
 import axios from 'axios';
 import BadamMilk from '../../Components/Assets/BadamMilkImg.jpg';
+import API_BASE_URL from "../../config";
+
 
 const BadamMilkPage = () => {
   const [showInput, setShowInput] = useState(false);
@@ -19,15 +21,21 @@ const BadamMilkPage = () => {
     const fetchData = async () => {
       try {
         if (userId) {
-          const userResponse = await axios.get(`https://milkdash.onrender.com/api/profile/${userId}`);
+          const userResponse = await axios.get(`${API_BASE_URL}/api/profile/${userId}`);
           setUser(userResponse.data);
-          setAddress(userResponse.data.address || ''); // Set default address
+          // Check if address is valid (not "Not Provided")
+          const userAddress = userResponse.data.address || '';
+          if (userAddress && userAddress.trim() !== '' && userAddress !== 'Not Provided') {
+            setAddress(userAddress);
+          } else {
+            setAddress(''); // Empty if not valid
+          }
         }
 
-        const stockResponse = await axios.get('https://milkdash.onrender.com/api/stocks/badammilk');
+        const stockResponse = await axios.get(`${API_BASE_URL}/api/stocks/badammilk`);
         setStock(stockResponse.data.stock);
 
-        const priceResponse = await axios.get('https://milkdash.onrender.com/api/product-price/badammilk');
+        const priceResponse = await axios.get(`${API_BASE_URL}/api/product-price/badammilk`);
         setPrice(priceResponse.data.price);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -89,8 +97,10 @@ const BadamMilkPage = () => {
       return;
     }
 
-    if (!address) {
-      alert('Please enter a delivery address.');
+    // Check if address is entered and not "Not Provided"
+    if (!address || address.trim() === '' || address === 'Not Provided') {
+      alert('Please enter a delivery address to proceed.');
+      setShowInput(true); // Show the address input if it's hidden
       return;
     }
 
@@ -128,11 +138,16 @@ const BadamMilkPage = () => {
                 <input
                   type='text'
                   className='delivery-input'
-                  placeholder='Enter address'
+                  placeholder='Enter your delivery address'
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
                 <button onClick={handleGetLocation}>Get Current Location</button>
+              </div>
+            )}
+            {address && address !== 'Not Provided' && !showInput && (
+              <div style={{marginTop: '10px', color: '#666', fontSize: '14px'}}>
+                Address set ✓
               </div>
             )}
           </div>
@@ -145,11 +160,11 @@ const BadamMilkPage = () => {
               <button className='quantity-btn' onClick={increaseQuantity}>+</button>
             </div>
             <button
-              className={`buy-now ${stock === 0 ? 'disabled' : ''}`}
+              className={`buy-now ${stock === 0 || !address || address === 'Not Provided' ? 'disabled' : ''}`}
               onClick={handleBuyNow}
-              disabled={stock === 0}
+              disabled={stock === 0 || !address || address === 'Not Provided'}
             >
-              {stock === 0 ? 'Out of Stock' : 'Buy Now'}
+              {stock === 0 ? 'Out of Stock' : !address || address === 'Not Provided' ? 'Add Address to Proceed' : 'Buy Now'}
             </button>
           </div>
         </div>

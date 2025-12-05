@@ -1,8 +1,8 @@
 import React from 'react'
 import {Routes, Route,Navigate} from 'react-router-dom'
-import AdminSidebar from "../../Components/AdminSidebar/AdminSidebar.jsx"
-import AdminNavbar from '../../Components/AdminNavbar/AdminNavbar.jsx'
-import AdminLoginPage from '../../Pages/AdminLoginPage/AdminLoginPage.jsx'
+import AdminSidebar from "../../Components/AdminSidebar.jsx"
+import AdminNavbar from '../../Components/AdminNavbar.jsx'
+import AdminLoginPage from '../AdminLoginPage.jsx'
 
 const AdminHomePage = () => {
   const isAdminAuthenticated = sessionStorage.getItem("isAdminAuthenticated");

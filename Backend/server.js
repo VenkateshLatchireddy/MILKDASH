@@ -1,3 +1,13 @@
+const path = require("path");
+require("dotenv").config({
+  path: path.join(__dirname, ".env"),
+});
+
+console.log("ENV TEST HOST:", process.env.MYSQL_HOST);
+console.log("ENV TEST PASS:", process.env.MYSQL_PASSWORD);
+const bcrypt = require('bcryptjs');
+
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
@@ -7,14 +17,40 @@ const app = express();
 const router = express.Router();
 require("dotenv").config(); // ✅ Load environment variables from .env file
 
+
+
 // ✅ Enable CORS for frontend
-const corsOptions = {
-  origin: "https://milkdash-by-venkatesh.netlify.app",
-  methods: "GET, POST, PUT, DELETE",
-  allowedHeaders: "Content-Type, Authorization",
-};
-app.use(cors(corsOptions));
+
+
+const allowedOrigins = [
+  "https://milkdash-by-venkatesh.netlify.app",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:5000"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow mobile & curl
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.log("❌ BLOCKED ORIGIN:", origin);
+        return callback(new Error("CORS Not Allowed"));
+      }
+    },
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type, Authorization",
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
+
+
+
 
 // ----------------------------------------------------------
 // ✅ UPDATED AIVEN MYSQL CONNECTION (ONLY CHANGE YOU REQUESTED)
@@ -62,16 +98,54 @@ app.get("/", (req, res) => {
 // ---------------------------------------------
 app.post("/signup", async (req, res) => {
   try {
-    const { name, email, password, contactnumber, address } = req.body;
+    const { name, email, password, contactnumber } = req.body;
 
-    if (!name || !email || !password || !contactnumber || !address) {
+    // Validate required fields
+    if (!name || !email || !password || !contactnumber) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const query = `INSERT INTO users (name, email, password, contactnumber, address) VALUES (?, ?, ?, ?, ?)`;
-    await db.execute(query, [name, email, password, contactnumber, address]);
+    // Validate password strength
+    if (password.length < 6) {
+      return res.status(400).json({ 
+        message: "Password must be at least 6 characters long." 
+      });
+    }
+
+    // Check if user already exists
+    const checkQuery = `SELECT * FROM users WHERE email = ? OR contactnumber = ?`;
+    const [existingUsers] = await db.execute(checkQuery, [email, contactnumber]);
+
+    if (existingUsers.length > 0) {
+      const existingUser = existingUsers[0];
+      if (existingUser.email === email) {
+        return res.status(400).json({ 
+          message: "Email already registered. Please use another email." 
+        });
+      }
+      if (existingUser.contactnumber === contactnumber) {
+        return res.status(400).json({ 
+          message: "Contact number already registered. Please use another number." 
+        });
+      }
+    }
+
+    // Hash the password before storing
+    const bcrypt = require('bcryptjs');
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Default address since you removed address from frontend
+    const address = "Not Provided";
+
+    // Insert new user with HASHED password
+    const insertQuery = `INSERT INTO users (name, email, password, contactnumber, address) 
+                         VALUES (?, ?, ?, ?, ?)`;
+
+    await db.execute(insertQuery, [name, email, hashedPassword, contactnumber, address]);
 
     res.status(200).json({ message: "Registration successful!" });
+
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json({ message: "Error registering user: " + error.message });
@@ -85,16 +159,26 @@ app.post("/login", async (req, res) => {
   try {
     const { emailOrContact, password } = req.body;
 
-    const query = `
-      SELECT id, name, email 
+    // First, find the user by email or contact number
+    const findQuery = `
+      SELECT id, name, email, password 
       FROM users 
-      WHERE (email = ? OR contactnumber = ?) AND password = ?
+      WHERE email = ? OR contactnumber = ?
     `;
 
-    const [results] = await db.execute(query, [emailOrContact, emailOrContact, password]);
+    const [results] = await db.execute(findQuery, [emailOrContact, emailOrContact]);
 
-    if (results.length > 0) {
-      const user = results[0];
+    if (results.length === 0) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const user = results[0];
+    
+    // Compare the provided password with the hashed password in database
+    const bcrypt = require('bcryptjs');
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
       res.status(200).json({
         message: "Login successful!",
         userId: user.id,
@@ -423,20 +507,96 @@ app.post("/api/updateStock", async (req, res) => {
   }
 });
 
-// ---------------------------------------------
-app.get("/accepted-orders", async (req, res) => {
-  try {
-    const [result] = await db.query(
-      'SELECT * FROM orders WHERE order_progress != "Order Delivered" ORDER BY date DESC'
-    );
+// =============================================
+// ✅ FIXED ORDER ROUTES (REPLACED 'pool' WITH 'db')
+// =============================================
 
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching orders" });
-  }
+// Route to get all accepted orders (non-delivered orders)
+app.get('/accepted-orders', async (req, res) => {
+    console.log('📋 Fetching non-delivered orders...');
+    
+    try {
+        // FIXED: Using single quotes for string literal AND db instead of pool
+        const [orders] = await db.query(
+            "SELECT * FROM orders WHERE order_progress != 'Order Delivered' ORDER BY date DESC"
+        );
+        
+        console.log(`✅ Found ${orders.length} non-delivered orders`);
+        res.json(orders);
+        
+    } catch (error) {
+        console.error('❌ Database error in /accepted-orders:', error);
+        console.error('❌ Error code:', error.code);
+        console.error('❌ SQL message:', error.sqlMessage);
+        console.error('❌ SQL query:', error.sql);
+        
+        res.status(500).json({ 
+            error: 'Failed to fetch accepted orders',
+            details: error.sqlMessage || error.message 
+        });
+    }
+});
+
+// Get all orders (for admin view)
+app.get('/orders-all', async (req, res) => {
+    console.log('📋 Fetching all orders...');
+    
+    try {
+        const [orders] = await db.query('SELECT * FROM orders ORDER BY date DESC');
+        console.log(`✅ Found ${orders.length} total orders`);
+        res.json(orders);
+    } catch (error) {
+        console.error('❌ Database error in /orders-all:', error);
+        res.status(500).json({ error: 'Failed to fetch orders' });
+    }
+});
+
+// Update order progress (for dashboard updates)
+app.put('/orders/:id/progress', async (req, res) => {
+    const orderId = req.params.id;
+    const { progress } = req.body;
+    
+    console.log(`📝 Updating order ${orderId} progress to: ${progress}`);
+    
+    // Validate progress value matches ENUM
+    const validProgress = ['Order In Progress', 'Order Confirmed', 'Out for Delivery', 'Order Delivered'];
+    if (!validProgress.includes(progress)) {
+        return res.status(400).json({ error: 'Invalid progress value' });
+    }
+    
+    try {
+        await db.query(
+            'UPDATE orders SET order_progress = ? WHERE order_id = ?',
+            [progress, orderId]
+        );
+        
+        console.log(`✅ Order ${orderId} progress updated to ${progress}`);
+        res.json({ message: 'Order progress updated successfully' });
+    } catch (error) {
+        console.error('❌ Database error updating order progress:', error);
+        res.status(500).json({ error: 'Failed to update order progress' });
+    }
+});
+
+// Get delivered orders
+app.get('/delivered-orders', async (req, res) => {
+    console.log('📋 Fetching delivered orders...');
+    
+    try {
+        const [orders] = await db.query(
+            "SELECT * FROM orders WHERE order_progress = 'Order Delivered' ORDER BY date DESC"
+        );
+        
+        console.log(`✅ Found ${orders.length} delivered orders`);
+        res.json(orders);
+    } catch (error) {
+        console.error('❌ Database error in /delivered-orders:', error);
+        res.status(500).json({ error: 'Failed to fetch delivered orders' });
+    }
 });
 
 // ---------------------------------------------
+// ✅ FIXED: Your existing order progress update (keep this one too)
 app.put("/orders/progress", async (req, res) => {
   try {
     const { order_id, order_progress } = req.body;
