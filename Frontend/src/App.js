@@ -1,6 +1,6 @@
 import React from 'react';
 import milksphlash from './Components/Assets/milksphlash.mp4';
-import './App.css';
+import './index.css';
 import { Routes, Route ,Navigate,useLocation} from 'react-router-dom';
 
 import HomePage from './Pages/HomePage.jsx';
@@ -20,7 +20,7 @@ import Navbar from './Components/Navbar.jsx';
 import PaymentPage from './Pages/PaymentPage.jsx';
 
 import AdminLoginPage from './Pages/AdminLoginPage.jsx';
-import AdminHomePage from './Pages/AdminHome/AdminHomePage.jsx';
+import AdminHomePage from './Pages/AdminHomePage.jsx';
 import UpdatePrice from './Pages/UpdatePrice.jsx';
 import UpdateStocks from './Pages/UpdateStocks.jsx';
 import OrderStatus from './Pages/OrderStatus.jsx';

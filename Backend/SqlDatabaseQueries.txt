@@ -1,7 +1,7 @@
 -- Create the database 'varahi_milks'
-CREATE DATABASE varahi_milks;
+CREATE DATABASE deafultdb;
 
--- Use the 'varahi_milks' database
+-- Use the 'defaultdb' database
 USE varahi_milks;
 
 
